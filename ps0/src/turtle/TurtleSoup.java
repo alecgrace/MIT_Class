@@ -92,8 +92,16 @@ public class TurtleSoup {
                                                  int targetX, int targetY) {
         double sideA = Math.abs(targetX - currentX);
         double sideB = Math.abs(targetY - currentY);
-        double degrees = Math.atan(sideB / sideA);
-        return Math.toDegrees(degrees);
+        double angleB = Math.atan(sideA/sideB);
+        angleB = Math.toDegrees(angleB);
+        double angleC = 0.0;
+        if (currentHeading <= 180.0) {
+            angleC = 180 - currentHeading;
+        } else {
+            angleC = 360 - currentHeading;
+        }
+        double answer = angleB + angleC;
+        return answer;
     }
 
     /**
@@ -139,15 +147,16 @@ public class TurtleSoup {
         drawSquare(turtle, 40);
         
         calculateRegularPolygonAngle(3);
-        calculateRegularPolygonAngle(7);
-        calculateRegularPolygonAngle(5);
+        
+        calculatePolygonSidesFromAngle(50);
         
         drawRegularPolygon(turtle, 5, 50);
-
+        
+        calculateHeadingToPoint(30, 0, 1, 0, 0);
+        
         // draw the window
         // turtle.draw();
         
-        System.out.println(calculateHeadingToPoint(30, 1, 2, 3, 3));
     }
 
 }
