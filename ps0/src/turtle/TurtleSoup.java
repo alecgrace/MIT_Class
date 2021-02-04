@@ -4,7 +4,9 @@
 package turtle;
 
 import java.util.List;
+import java.awt.MultipleGradientPaint.ColorSpaceType;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class TurtleSoup {
 
@@ -95,8 +97,8 @@ public class TurtleSoup {
         double angleB = Math.atan(sideA/sideB);
         angleB = Math.toDegrees(angleB);
         double angleC = 0.0;
-        if (currentHeading <= 180.0) {
-            angleC = 180 - currentHeading;
+        if (currentHeading == 0) {
+            angleC = angleC;
         } else {
             angleC = 360 - currentHeading;
         }
@@ -119,7 +121,22 @@ public class TurtleSoup {
      *         otherwise of size (# of points) - 1
      */
     public static List<Double> calculateHeadings(List<Integer> xCoords, List<Integer> yCoords) {
-        throw new RuntimeException("implement me!");
+        
+        double currentHeading = 0.0;
+        
+        int length = xCoords.size();
+        
+        double current = 0.0;
+        
+        List returnList = new ArrayList();
+        
+        for (int i = 0; i < length - 1; i ++) {
+            current = calculateHeadingToPoint(currentHeading, xCoords.get(i), yCoords.get(i), xCoords.get(i + 1), yCoords.get(i + 1));
+            returnList.add(current);
+            currentHeading = currentHeading + current;
+        }
+        
+        return returnList;
     }
 
     /**
@@ -130,8 +147,51 @@ public class TurtleSoup {
      * 
      * @param turtle the turtle context
      */
+    
+    public static boolean isOdd(int num) {
+        if (num % 2 == 0) {
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
     public static void drawPersonalArt(Turtle turtle) {
-        throw new RuntimeException("implement me!");
+        
+        List colors = new ArrayList<PenColor>();
+        colors.add(PenColor.BLACK);
+        colors.add(PenColor.BLUE);
+        colors.add(PenColor.CYAN);
+        colors.add(PenColor.GRAY);
+        colors.add(PenColor.GREEN);
+        colors.add(PenColor.MAGENTA);
+        colors.add(PenColor.ORANGE);
+        colors.add(PenColor.PINK);
+        colors.add(PenColor.RED);
+        
+        for (int i = 0; i < 50; i++) {
+            
+            int len = 50;
+            
+            turtle.forward(len);
+            Random rand = new Random(); //instance of random class
+            int upperbound = 9;
+              //generate random values from 0-8
+            int int_random = rand.nextInt(upperbound); 
+            
+            if (isOdd(int_random)) {
+                turtle.turn(30 * i);
+            } else {
+                turtle.turn(-(30 * i));
+            }
+            
+            PenColor current = (PenColor) colors.get(int_random);
+            turtle.color(current);
+            for (int j = 0; j < 5; j++) {
+                turtle.forward(5);
+                turtle.turn(90);
+            }
+        }
     }
 
     /**
@@ -153,9 +213,23 @@ public class TurtleSoup {
         drawRegularPolygon(turtle, 5, 50);
         
         calculateHeadingToPoint(30, 0, 1, 0, 0);
+
+        System.out.println(calculateHeadingToPoint(1.0, 4, 5, 4, 6));
         
-        // draw the window
-        // turtle.draw();
+        List<Integer> xpoints = new ArrayList<>();
+        List<Integer> ypoints = new ArrayList<>();
+        xpoints.add(0);
+        xpoints.add(1);
+        xpoints.add(1);
+        ypoints.add(0);
+        ypoints.add(1);
+        ypoints.add(2);
+        
+        calculateHeadings(xpoints, ypoints);
+        
+        drawPersonalArt(turtle);
+        
+        turtle.draw();
         
     }
 
