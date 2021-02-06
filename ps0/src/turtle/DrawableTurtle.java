@@ -15,8 +15,8 @@ import turtle.Action.ActionType;
  */
 public class DrawableTurtle implements Turtle {
 
-    private static final int CANVAS_WIDTH = 512;
-    private static final int CANVAS_HEIGHT = 512;
+    private static final int CANVAS_WIDTH = 1024;
+    private static final int CANVAS_HEIGHT = 900;
 
     private static final int CIRCLE_DEGREES = 360;
     private static final int DEGREES_TO_VERTICAL = 90;
